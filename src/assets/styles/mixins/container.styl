@@ -1,0 +1,16 @@
+@import "../vars/variables";
+
+container($container) {
+  padding: 0 $gutter-ms;
+  margin: 0 auto;
+  max-width: ($container + 2 * $gutter-ms);
+
+  +breakpoint(sm-and-up) {
+    padding: 0 $gutter-sm;
+    max-width: ($container + 2 * $gutter-sm);
+  }
+  +breakpoint(lg-and-up) {
+    padding: 0 $gutter;
+    max-width: ($container + 2 * $gutter);
+  }
+}

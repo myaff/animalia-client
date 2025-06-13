@@ -1,0 +1,124 @@
+icon = "& ^[0]__icon";
+
+generate-filled($scheme, $key) {
+  $base = $scheme.base;
+  $text = $scheme.base-text;
+  $icon = $scheme.base-icon ? $scheme.base-icon : $text;
+  $hover = $scheme.hover ? $scheme.hover : darken($base, 5%);
+  $hover-text = $scheme.hover-text ? $scheme.hover-text : $text;
+  $hover-icon = $scheme.hover-icon ? $scheme.hover-icon : $icon;
+  $active = $scheme.active ? $scheme.active : $hover;
+  $active-text = $scheme.active-text ? $scheme.active-text : $hover-text;
+  $active-icon = $scheme.active-icon ? $scheme.active-icon : $active-text;
+  // ------------
+
+  background: $base;
+  color: $text;
+
+  {icon} {
+    color: $icon;
+  }
+
+  &:hover {
+    background: $hover;
+    color: $hover-text;
+    {icon} {
+      color: $hover-icon;
+    }
+  }
+
+  &.active {
+    background: $active;
+    color: $active-text;
+    {icon} {
+      color: $active-icon;
+    }
+  }
+}
+
+generate-outline($scheme) {
+  $base = $scheme.base;
+  $border = $scheme.outline-border ? $scheme.outline-border : $base;
+  $text = $scheme.outline-text ? $scheme.outline-text : $base;
+  $icon = $scheme.base-icon ? $scheme.base-icon : $text;
+  $hover = $base;
+  $hover-text = $scheme.hover-text ? $scheme.hover-text : $scheme.base-text;
+  $hover-icon = $scheme.hover-icon ? $scheme.hover-icon : $icon;
+  $active = $scheme.active ? $scheme.active : $hover;
+  $active-text = $scheme.active-text ? $scheme.active-text : $hover-text;
+  $active-icon = $scheme.active-icon ? $scheme.active-icon : $active-text;
+  $loader = $scheme.loader ? $scheme.loader : $text;
+  // ------------
+
+  background: transparent;
+  color: $text;
+  border-color: $border;
+
+  {icon} {
+    color: $icon;
+  }
+
+  &:hover {
+    border-color: transparent;
+    color: $hover-text;
+    background: $hover;
+
+    {icon} {
+      color: $hover-icon;
+    }
+  }
+
+  &:active {
+    background: $active ? $active : darken($hover, 5%);
+  }
+
+  &.active {
+    background: $active;
+    color: $active-text;
+
+    {icon} {
+      color: $active-icon;
+    }
+  }
+}
+
+generate-plain($scheme) {
+  $base = $scheme.base;
+  $text = $base;
+  $def-text = $scheme.plain-text ? $scheme.plain-text : $text;
+  $icon = $scheme.base-icon ? $scheme.base-icon : $text;
+  $active = $scheme.active && dark($scheme.active) ? $scheme.active : $text;
+  $active-text = $scheme.active-text && dark($scheme.active-text) ? $scheme.active-text : $active;
+  $active-icon = $scheme.active-icon ? $scheme.active-icon : $active-text;
+  $hover-text = darken($active-text, 10%);
+  $hover-icon = darken($active-icon, 10%);
+  $loader = $scheme.loader ? $scheme.loader : $text;
+  // ------------
+
+  background: transparent;
+  color: $def-text;
+
+  {icon} {
+    color: $icon;
+  }
+
+  &:active {
+    background: rgba(mix($base, #000, 70%), 0.05);
+  }
+
+  &:hover {
+    color: $hover-text;
+
+    {icon} {
+      color: $hover-icon;
+    }
+  }
+
+  &.active {
+    color: $active-text;
+
+    {icon} {
+      color: $active-icon;
+    }
+  }
+}

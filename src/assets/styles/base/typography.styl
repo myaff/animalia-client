@@ -1,0 +1,288 @@
+@import "../vars/variables";
+
+.smallest-text {
+  font-style: normal;
+  font-weight: $font-weight-base;
+  font-size: $font-size-smallest;
+  line-height: $line-height-smallest;
+}
+
+.small-text {
+  font-style: normal;
+  font-weight: $font-weight-base;
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+  letter-spacing: 0.01em;
+}
+.small-text--light {
+  @extend .small-text;
+  font-weight: $font-weight-light;
+}
+
+.standart-text {
+  font-style: normal;
+  font-weight: $font-weight-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  letter-spacing: 0.01em;
+}
+
+.standart-text--light {
+  @extend .standart-text;
+  font-weight: $font-weight-light;  
+}
+
+.standart-title {
+  @extend .standart-text;
+
+  font-weight: $font-weight-medium;
+}
+
+.standart-heading {
+  @extend .standart-text;
+
+  font-weight: $font-weight-bold;
+}
+
+.medium-text {
+  font-size: $font-size-medium;
+  line-height: $line-height-medium;
+  letter-spacing: 0.01em;
+  font-weight: $font-weight-base;
+
+  +breakpoint(xl-only) {
+    font-size: $font-size-big;
+  }
+}
+.medium-text--light {
+  @extend .medium-text;
+  font-weight: $font-weight-light;  
+}
+
+.medium-title {
+  @extend .medium-text;
+  font-weight: $font-weight-medium;
+  &--light {
+    @extend .medium-text--light;
+  }
+  &, &--light {
+    text-transform: uppercase;
+  }
+}
+
+.big-text {
+  @extend .standart-text;
+  font-size: $font-size-big;
+  line-height: $line-height-big;
+  text-transform: uppercase;
+}
+.big-text--light {
+  @extend .big-text;
+    font-weight: $font-weight-light;
+}
+
+.big-title {
+  @extend .big-text;
+  font-family: $font-accent;
+  font-weight: $font-weight-black;
+
+  +breakpoint(sm-and-up) {
+    font-size: $font-size-biggest;
+  }
+  +breakpoint(ml-and-up) {
+    font-size: $font-size-large;
+  }
+}
+
+.bigger-text {
+  font-size: $font-size-bigger;
+  line-height: $line-height-bigger;
+}
+
+.bigger-title {
+  @extend .bigger-text;
+  font-family: $font-accent;
+  font-weight: $font-weight-black;
+  line-height: 1.2;
+  text-transform: uppercase;
+
+  +breakpoint(sm-and-up) {
+    font-size: $font-size-biggest;
+  }
+  +breakpoint(ml-and-up) {
+    font-size: $font-size-larger;
+  }
+}
+
+.bigger-heading {
+  @extend .bigger-text;
+  text-transform: uppercase;
+
+  +breakpoint(sm-and-down) {
+    font-size: $font-size-medium;
+  }
+}
+
+.biggest-text {
+  font-size: $font-size-biggest;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.page-title {
+  font-family: $font-accent;
+  font-size: $font-size-bigger;
+  line-height: $line-height-smallest;
+  font-weight: $font-weight-black;
+  color: $color-dark.black;
+  text-transform: uppercase;
+  transition: color $anim-base-duration ease;
+  margin: 0;
+  padding: 0;
+  word-break: break-word;
+
+  +breakpoint(sm-and-up) {
+    font-size: $font-size-large;
+  }
+  +breakpoint(ml-and-up) {
+    font-size: $font-size-largest;
+  }
+}
+.page-title-x {
+  @extend .page-title;
+  @media $breakpoint.ml-and-up {
+    font-size: $font-size-x-largest;
+  }
+}
+
+.note-text {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $note-color;
+}
+.note-text--light {
+  @extend .note-text;
+  font-weight: $font-weight-light;
+
+  +breakpoint(ml-and-up) {
+    font-size: $font-size-medium;
+  }
+}
+
+.note-title {
+  @extend .note-text;
+  &--light {
+    @extend .note-text--light;
+  }
+  &, &--light {
+    text-transform: uppercase;
+  }
+}
+
+.note-color {
+  color: $note-color;
+}
+
+.error-color {
+  color: $error-color;
+}
+
+.warning-color {
+  color: $warning-color;
+}
+
+.success-color {
+  color: $success-color;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  color: $primary-color;
+  word-break: break-all;
+  line-height: 1;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.link--silent {
+  @extend .link;
+  border-bottom-color: transparent;
+
+  &:hover {
+    border-bottom-color: currentColor;  
+  }  
+}
+.small-link {
+  & {
+    @extend .small-text;
+  }
+  &--light,
+  .small-text--light & {
+    @extend .small-text--light;
+  }
+  &, &--light {
+    @extend .link;
+  }
+}
+.standart-link {
+  & {
+    @extend .standart-text;
+  }
+  &--light,
+  .standart-text--light & {
+    @extend .standart-text--light;
+  }
+  &, &--light {
+    @extend .link;
+  }
+}
+.big-link {
+  & {
+    @extend .big-text;  
+  }
+  &--light {
+    @extend .big-text--light;
+  }
+  &, &--light {
+    @extend .link--silent;
+  }
+}
+
+p, ol, ul {
+  margin: 1.5em 0;
+  no-childs-margin();
+}
+
+ol, ul {
+  li + li {
+    margin-top: 1em;
+  }
+}
+
+h3 {
+  margin: 0px;
+  padding: 0px;
+}
+
+h4 {
+  margin: 0px;
+  padding: 0px;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: var(--title);
+}
+
+pre {
+  max-width: 100%;
+  white-space: break-spaces;
+  background: #f1f1f1;
+  padding: ($gutter / 2);
+}

@@ -1,0 +1,55 @@
+$breakpoints-only := {
+  xs: xs-only,
+  ms: ms-only,
+  sm: sm-only,
+  md: md-only,
+  ml: ml-only,
+  lg: lg-only,
+  xl: xl-only,
+}
+$breakpoints-down := {
+  xs: xs-and-down,
+  ms: ms-and-down,
+  sm: sm-and-down,
+  md: md-and-down,
+  ml: ml-and-down,
+  lg: lg-and-down,
+  xl: xl-and-down,
+}
+$breakpoints-up := {
+  xs: xs-and-up,
+  ms: ms-and-up,
+  sm: sm-and-up,
+  md: md-and-up,
+  ml: ml-and-up,
+  lg: lg-and-up,
+  xl: xl-and-up,
+}
+
+.l-hidden {
+  display: none !important;
+
+  for $key, $point in $breakpoints-only {
+    +breakpoint($point) {
+      &-{$key} {
+        display: none !important;
+      }
+    }
+  }
+
+  for $key, $point in $breakpoints-down {
+    +breakpoint($point) {
+      &-{$key}-down {
+        display: none !important;
+      }
+    }
+  }
+
+  for $key, $point in $breakpoints-up {
+    +breakpoint($point) {
+      &-{$key}-up {
+        display: none !important;
+      }
+    }
+  }
+}

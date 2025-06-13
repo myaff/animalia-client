@@ -1,0 +1,97 @@
+// ======================================================
+// COLOR-THEMES
+// ======================================================
+
+@import "./colors.styl";
+
+$primary-color = $color-blue.base;
+$secondary-color = #C89F6E;
+$success-color = $color-green.base;
+$warning-color = $color-yellow.base;
+$error-color = $color-red.light;
+$note-color = $color-light.dark;
+$text-color = $color-dark.dark;
+
+// ======================================================
+// FONTS
+// ======================================================
+$font-base = inter, roboto, --apple-system, blinkmacsystemfont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", verdana, sans-serif;
+$font-accent = zoloto, $font-base;
+
+// if ($use-fonts) import custom fonts
+$use-fonts = false;
+
+// if ($use-swiper) import swiper basic styles overrides
+$use-swiper = false;
+
+@import "./fonts.styl";
+
+$font-size = 16px;
+$font-size-smallest = 12px;
+$font-size-small = 14px;
+$font-size-base = 16px;
+$font-size-medium = 18px;
+$font-size-big = 20px;
+$font-size-bigger = 24px;
+$font-size-biggest = 32px;
+$font-size-large = 40px;
+$font-size-larger = 48px;
+$font-size-largest = 60px;
+$font-size-x-largest = 64px;
+$line-height-smallest = 12px;
+$line-height-small = normal;
+$line-height-smallest = 0.8;
+$line-height-smaller = 1;
+$line-height-base = 1.5;
+$line-height-medium = 1.5;
+$line-height-big = 1.5;
+$line-height-bigger = 1.75;
+$font-weight-light = 300;
+$font-weight-base = 400;
+$font-weight-medium = 500;
+$font-weight-bold = 700;
+$font-weight-black = 900;
+
+// ======================================================
+// BREAKPOINTS
+// ======================================================
+$breakpoints := {
+  xs: 0,
+  ms: 30rem,   // 480px
+  sm: 48rem,   // 768px
+  md: 64rem,   // 1024px
+  ml: 80rem,   // 1280px
+  lg: 90rem,   // 1440px
+  xl: 100rem,
+}
+
+@import "./breakpoints.styl";
+
+// ======================================================
+// LAYOUT SETTINGS
+// ======================================================
+$use-grid = false;
+$gutter-ms = 0.625rem;
+$gutter-sm = 1.25rem;
+$gutter-md = 1.25rem;
+$gutter = 1.25rem;
+$gutter-outside = 2.5rem;
+$gutter-vertical-ms = 1.25rem;
+$gutter-vertical = $gutter;
+$gutter-20 = 1.25rem;
+$gutter-24 = 1.5rem;
+$container = 120rem; // 85rem;
+
+$header-height = 60px;
+$sidebar-width = 240px;
+$sidebar-width-min = 60px;
+
+$border-radius-base = 6px;
+$border-radius-small = 4px;
+$border-radius-big = 10px;
+
+$anim-base-duration = 0.5s;
+
+// z-indexes
+$header-z = 90;
+$modal-z = 100;

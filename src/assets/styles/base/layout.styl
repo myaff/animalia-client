@@ -1,0 +1,108 @@
+@import "../vars/variables";
+@import "../mixins/mixins";
+
+* {
+  box-sizing: border-box;
+  // transition: background 1s ease, color .2s ease, border 1s ease, position 1s ease;
+}
+
+html,
+body {
+  font-family: $font-base;
+  line-height: 1.25;
+  text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+}
+
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  --scrollbar-width: 0px;
+  // transition: background 1s ease, color 1s ease;
+}
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+}
+
+
+svg[aria-hidden="true"] {
+  display: none;
+}
+
+input {
+  box-sizing: border-box;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.customize-select {
+  height: 50px;
+}
+
+.standart-input-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+
+  & span {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--text);
+  }
+}
+
+.container {
+  width: 100%;
+  container($container);
+  & & {
+    padding: 0;
+  }
+}
+
+.container-content {
+  display: flex;
+  flex-direction: column;
+  // margin-right: 212px;
+}
+
+.container-tooltip {
+  min-width: 250px;
+}
+
+.fullwidth {
+  fullwidth();
+}
+
+.layout {
+  width: 100%;
+}
+
+:root {
+  --loader-color: $color-dark.black;
+  --loader-border: transparent;
+}

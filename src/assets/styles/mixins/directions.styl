@@ -1,0 +1,39 @@
+$directions = top, bottom, left, right;
+
+opposite-direction($dir = top) {
+  if $dir == top {
+    bottom;
+  } else if $dir == bottom {
+    top;
+  } else if $dir == left {
+    right;
+  } else if $dir == right {
+    left;
+  } else {
+    error("Direction is undefined");
+  }
+}
+
+aside-directions($dir) {
+  if $dir == top || $dir == bottom {
+    $dirs = left right;
+    $dirs;
+  } else if $dir == left || $dir == right {
+    $dirs = top bottom;
+    $dirs;
+  } else {
+    error("Direction is undefined");
+  }
+}
+
+other-directions($dir) {
+  if $dir {
+    $dirs = opposite-direction($dir);
+    for $d in aside-directions($dir) {
+      push($dirs, $d);
+    }
+    $dirs;
+  } else {
+    error("Direction is undefined");
+  }
+}
