@@ -11,23 +11,29 @@ const formData = reactive({
   username: '',
   password: '',
 });
-const isValid = computed(() => formData.username && formData.password);
+const repeatPassword = ref('');
+const isValid = computed(() => formData.username
+  && formData.password
+  && repeatPassword.value
+  && formData.password === repeatPassword.value);
 const showErrors = ref(false);
 watch(isValid, value => {
   if (value) showErrors.value = false;
 });
 const onSubmit = async () => {
   if (!isValid.value) showErrors.value = true;
-  if (isValid.value) userStore.login(formData).then(() => {
+  if (isValid.value) userStore.register(formData).then(() => {
     router.push({ name: 'home' });
   });
 }
 </script>
 
 <template>
-  <div class="login-view">
+  <div class="register-view">
     <BaseInput v-model="formData.username" label="UserName" />
     <BaseInput v-model="formData.password" label="Password" type="password" />
+    <BaseInput v-model="repeatPassword" label="Repeat password" type="password" />
+    <div v-if="showErrors" class="register-view__error">Error</div>
     <BaseButton title="Submit" @click="onSubmit" />
   </div>
 </template>
