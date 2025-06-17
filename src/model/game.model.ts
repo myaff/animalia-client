@@ -5,11 +5,16 @@ export interface GameElement {
   img?: string;
 }
 
+export interface GameElementIndexed extends GameElement {
+  index: number;
+  key: string;
+}
+
 export interface GamePosition {
   x: number;
   y: number;
-  z: number;
+  size: number;
 }
 
-export type GameElementMaybeStyled = GameElement & Partial<GamePosition>;
-export type GameElementStyled = GameElement & GamePosition;
+export type GameElementMaybeStyled = GameElementIndexed & Partial<GamePosition>;
+export type GameElementStyled = GameElementIndexed & GamePosition;

@@ -2,47 +2,76 @@
 import GameField from '@/components/Game/GameField.vue';
 import GameOpened from '@/components/Game/GameOpened.vue';
 import { useGameStore } from '@/stores/game';
-import { computed, ref } from 'vue';
-import type { GameElement } from '@/model/game.model';
-import { useDraggable, useWindowSize } from '@vueuse/core';
+import { computed } from 'vue';
+import type { GameElement, GameElementStyled } from '@/model/game.model';
+import { useWindowSize } from '@vueuse/core';
+import NavMain from '@/components/Nav/NavMain.vue';
+import useGame from '@/composables/useGame';
+import useDraggablePanel from '@/composables/useDraggablePanel';
 
 const gameStore = useGameStore();
 gameStore.getOpened();
 const opened = computed(() => gameStore.opened);
-const onField = ref<GameElement[]>([]);
-const openedPanelEl = ref();
 const { height } = useWindowSize();
 const OFFSET = 50;
-const top = ref(height.value - OFFSET);
-useDraggable(openedPanelEl, {
-  preventDefault: true,
-  axis: 'y',
-  onMove: (position) => {
-    if (position.y >= OFFSET && position.y <= height.value) {
-      top.value = position.y - OFFSET;
-    }
-  },
-  onEnd: (position) => {
-    if (position.y < height.value / 2) top.value = 0;
-    else top.value = height.value - OFFSET;
-  },
-});
+
+const {
+  panelEl: openedListPanelEl,
+  panelTop: openedListPanelTop,
+  panelActive: openedListPanelActive,
+  panelDragging: openedLisiPanelDragging,
+  setPanelActive: setOpenedListPanelActive,
+} = useDraggablePanel({ height, offset: OFFSET });
+
+const {
+  fieldList,
+  addElements,
+  replaceElements,
+  duplicateElement,
+  deleteElement,
+  clearField,
+} = useGame();
+
 const onSelect = (items: GameElement[]) => {
-  top.value = height.value - OFFSET;
-  onField.value.push(...items);
+  setOpenedListPanelActive(false);
+  addElements(items);
 }
+const onIntersection = (items: GameElementStyled[]) => {
+  gameStore.checkCombo(items).then(newList => {
+    if (newList.length) replaceElements(items, newList);
+  });
+}
+const onNavClick = (key: string) => console.log(key);
+const mainNavList = [
+  { title: 'Рейтинг', onClick: () => onNavClick('Rating') },
+  // { title: 'Турнир', onClick: () => onNavClick('Tournament') },
+  { title: 'Список', onClick: () => setOpenedListPanelActive(true) },
+  // { title: 'Энциклопедия', onClick: () => onNavClick('Book') },
+  { title: 'Подсказка', onClick: () => onNavClick('Hints') },
+]
 </script>
 
 <template>
   <main class="home-view game">
-    <GameField :list="onField" class="game__field" />
+    <GameField
+      :list="fieldList"
+      class="game__field"
+      @intersection="onIntersection"
+      @duplicate="duplicateElement"
+      @delete="deleteElement"
+      @clear="clearField" />
+    <NavMain :list="mainNavList" class="game__nav-main" />
     <GameOpened
       :list="opened"
       class="game__opened"
-      :style="{ top: top + 'px' }"
-      @select="(items: GameElement[]) => onSelect(items)">
+      :class="{
+        active: openedListPanelActive,
+        dragging: openedLisiPanelDragging,
+      }"
+      :style="{ top: openedListPanelTop + 'px' }"
+      @select="onSelect">
       <template #SwipeTrigger>
-        <div ref="openedPanelEl" class="game__swipe-trigger"></div>
+        <div ref="openedListPanelEl" class="game__swipe-trigger"></div>
       </template>
     </GameOpened>
   </main>
@@ -70,7 +99,16 @@ const onSelect = (items: GameElement[]) => {
     --bg: coral;
     top: calc(100% - var(--offset));
     left: 0;
-    z-index: 50;
+    z-index: 0;
+
+    &.active,
+    &.dragging {
+      z-index: 50;
+    }
+
+    &:not(.dragging) {
+      transition: top 0.5s ease;
+    }
   }
 
   &__swipe-trigger {
@@ -89,6 +127,15 @@ const onSelect = (items: GameElement[]) => {
       transform: translateX(-50%);
       background: var(--bg);
     }
+  }
+
+  &__nav-main {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: darkblue;
+    z-index: 40;
   }
 }
 </style>
