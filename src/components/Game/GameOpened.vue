@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseButton from '@/components/Base/BaseButton.vue';
 import GameElement from '@/components/Game/GameElement.vue';
+import BaseTabsPanel from '@/components/Base/BaseTabsPanel.vue';
 import type { GameElement as GameElementType } from '@/model/game.model';
 import { reactive, ref, watch, type PropType } from 'vue';
 
@@ -34,6 +35,15 @@ const onApply = () => {
 watch(() => selected.size, value => {
   if (!value) multiselectMode.value = false;
 });
+
+const tabs = [
+  { title: 'Все', key: 'all' },
+  { title: 'Группы', key: 'first' },
+  { title: 'Организмы', key: 'second' },
+  { title: 'Элементы', key: 'third' },
+  { title: 'Способности', key: 'fourth' },
+]
+const activeTab = ref('all');
 </script>
 
 <template>
@@ -42,13 +52,8 @@ watch(() => selected.size, value => {
       <slot name="SwipeTrigger"></slot>
     </div>
     <div class="game-opened__window">
-      <div class="game-opened__panel">
-        <BaseButton v-if="selected.size" @click="onClear">
-          Clear ({{ selected.size }})
-        </BaseButton>
-        <BaseButton v-if="selected.size" @click="onApply">
-          Apply ({{ selected.size }})
-        </BaseButton>
+      <div class="game-opened__header">
+        <BaseTabsPanel :list="tabs" v-model="activeTab" class="pt-12"></BaseTabsPanel>
       </div>
       <div class="game-opened__list">
         <div
@@ -63,11 +68,25 @@ watch(() => selected.size, value => {
             @longclick="onLongClick(item)" />
         </div>
       </div>
+      <div class="game-opened__footer">
+        <BaseButton
+          v-if="selected.size"
+          size="small"
+          theme="danger"
+          mode="outline"
+          icon="delete"
+          @click="onClear">
+          Очистить
+        </BaseButton>
+        <BaseButton v-if="selected.size" size="small" @click="onApply">
+          Добавить ({{ selected.size }})
+        </BaseButton>
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="styl" scoped>
 .game-opened {
   --offset: 50px;
   --bg: white;
@@ -87,19 +106,31 @@ watch(() => selected.size, value => {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 16px 10px;
   }
 
-  &__panel {
+  &__footer {
+    position: sticky;
+    left: 0;
+    bottom: 0;
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    justify-content: center;
+    padding: 16px 10px;
+
+    +breakpoint(sm-and-up) {
+      justify-content: flex-end;
+    }
   }
 
   &__list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: 30px 10px;
+    flex: 1;
+    padding: 16px 10px;
   }
 
   &__item {

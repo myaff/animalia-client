@@ -45,7 +45,7 @@ const onNavClick = (key: string) => console.log(key);
 const mainNavList = [
   { title: 'Рейтинг', onClick: () => onNavClick('Rating') },
   // { title: 'Турнир', onClick: () => onNavClick('Tournament') },
-  { title: 'Список', onClick: () => setOpenedListPanelActive(true) },
+  { title: 'Список', icon: 'widgets', onClick: () => setOpenedListPanelActive(true) },
   // { title: 'Энциклопедия', onClick: () => onNavClick('Book') },
   { title: 'Подсказка', onClick: () => onNavClick('Hints') },
 ]
@@ -77,13 +77,14 @@ const mainNavList = [
   </main>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="styl" scoped>
 .game {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100dvh;
   overflow: hidden;
+  background: $color-orange.lighten-4;
 
   &__field {
     position: relative;
@@ -96,7 +97,7 @@ const mainNavList = [
     width: 100%;
     height: 100%;
     --offset: 50px;
-    --bg: coral;
+    --bg: $color-base.white;
     top: calc(100% - var(--offset));
     left: 0;
     z-index: 0;
@@ -130,9 +131,6 @@ const mainNavList = [
   }
 
   &__nav-main {
-    position: fixed;
-    left: 0;
-    bottom: 0;
     width: 100%;
     background: darkblue;
     z-index: 40;

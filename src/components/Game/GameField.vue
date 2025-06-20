@@ -15,19 +15,26 @@ const props = defineProps({
 const emits = defineEmits(['intersection', 'duplicate', 'delete', 'clear']);
 const areaEl = ref();
 const { width: areaWidth, height: areaHeight, x: areaX, y: areaY } = useElementBounding(areaEl);
+const deletingEl = ref();
+const { x: delX, y: delY, width: delWidth, height: delHeight } = useElementBounding(deletingEl);
+const isDeleting = ref(false);
 const SIZE = 50;
 const INTERSECTION = 0.8;
 const X_GAP = 10;
 const Y_GAP = 20;
 const grid = computed(() => {
-  const cols = Math.floor(areaWidth.value / (SIZE + X_GAP));
-  const rows = Math.floor(areaHeight.value / (SIZE + Y_GAP));
+  const xOffset = 20;
+  const yOffset = 20;
+  const availWidth = areaWidth.value - xOffset * 2;
+  const availHeight = areaHeight.value - yOffset * 2 - delHeight.value;
+  const cols = Math.floor(availWidth / (SIZE + X_GAP));
+  const rows = Math.floor(availHeight / (SIZE + Y_GAP));
   const cells: { x: number; y: number }[] = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
       cells.push({
-        x: x * SIZE + x * X_GAP,
-        y: y * SIZE + y * Y_GAP,
+        x: x * SIZE + x * X_GAP + xOffset,
+        y: y * SIZE + y * Y_GAP + yOffset,
       });
     }
   }
@@ -51,9 +58,6 @@ watch(() => props.list, value => {
   if (!value.length) elementsIndex.clear();
 }, { immediate: true, deep: true });
 
-const isDeleting = ref(false);
-const deletingEl = ref();
-const { x: delX, y: delY, width: delWidth, height: delHeight } = useElementBounding(deletingEl);
 
 const getIntersectionBounds = (item: GameElementStyled) => {
   const half = item.size * INTERSECTION;
@@ -129,16 +133,19 @@ const onClear = () => {
         ref="deletingEl"
         class="game-field__removing"
         :class="{ active: isDeleting }">
-        <BaseButton @click="onClear">Clear</BaseButton>
+        <BaseButton
+          icon="delete"
+          theme="danger"
+          shape="circle"
+          class="game-field__clear"
+          @click="onClear" />
       </div>
     </div>
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="styl" scoped>
 .game-field {
-  padding: 50px 20px;
-
   &__area {
     position: relative;
     width: 100%;
@@ -163,13 +170,34 @@ const onClear = () => {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 20%;
-    background: lightpink;
-    transition: background .3s ease;
+    height: max(10%, 70px);
+    transition: all .3s ease;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      left: 0;
+      transition: all 0.3s ease;
+    }
+    &::before {
+      bottom: 0;
+    }
 
     &.active {
-      background: red;
+      &::before {
+        background: $color-red.lighten-1;
+        box-shadow: 0px -10px 50px 50px $color-red.lighten-1;
+      }
     }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 20px
+    bottom: 20px;
   }
 }
 </style>

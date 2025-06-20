@@ -35,9 +35,9 @@ watch(internalValue, value => {
 <template>
   <div class="base-input">
     <label :for="uid" class="base-input__label">
-      <span class="base-input__label-text">
+      <div class="base-input__label-text medium-title mb-8">
         <slot name="Label">{{ label }}</slot>
-      </span>
+      </div>
       <input
         :id="uid"
         v-model="internalValue"
@@ -47,11 +47,24 @@ watch(internalValue, value => {
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="styl" scoped>
 .base-input {
+  &__label {
+
+  }
   &__field {
-    border: 1px solid gray;
-    padding: 4px 8px;
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid $color-grey.lighten-2;
+    border-radius: $border-radius-base;
+    background: $color-grey.lighten-4;
+    transition: all 0.3s ease;
+
+    &:focus {
+      background: $color-grey.lighten-5;
+      border-color: $color-grey.darken-2;
+    }
   }
 }
 </style>

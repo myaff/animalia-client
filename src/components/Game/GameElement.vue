@@ -31,9 +31,9 @@ const onLongClick = () => {
     class="game-element"
     @dblclick="emits('dblclick')"
     @mousedown="onClickStart"
-    @touchstart="onClickStart"
+    @touchstart.prevent="onClickStart"
     @mouseup="onClickEnd"
-    @touchend="onClickEnd">
+    @touchend.prevent="onClickEnd">
     <div class="game-element__name">{{ item.name }}</div>
   </div>
 </template>

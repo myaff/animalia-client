@@ -1,0 +1,73 @@
+$spaces = 2, 4, 8, 12, 16, 20, 24, 32, 36, 40, 'auto';
+
+getValue($val, $unit = 'px') {
+  if $val is a 'unit' {
+    return unit($val, $unit);
+  } else {
+    return unquote($val);
+  }
+}
+
+getSpacings($key, $prop, $point = '') {
+  .{$key}l-{$value}{$point} {
+    {$prop}-left: getValue($value);
+  }
+  .{$key}r-{$value}{$point} {
+    {$prop}-right: getValue($value);
+  }
+  .{$key}t-{$value}{$point} {
+    {$prop}-top: getValue($value);
+  }
+  .{$key}b-{$value}{$point} {
+    {$prop}-bottom: getValue($value);
+  }
+  .{$key}x-{$value}{$point} {
+    {$prop}-left: getValue($value);
+    {$prop}-right: getValue($value);
+  }
+  .{$key}y-{$value}{$point} {
+    {$prop}-top: getValue($value);
+    {$prop}-bottom: getValue($value);
+  }
+  .{$key}a-{$value}{$point} {
+    {$prop}: getValue($value);
+  }
+}
+
+for $value in $spaces {
+  getSpacings('m', 'margin');
+
+  if $value not a 'auto' {
+    getSpacings('p', 'padding');
+  }
+
+  for $key, $point in $breakpoints-only {
+    +breakpoint($point) {
+      getSpacings('m', 'margin', '-'+$key);
+
+      if $value not a 'auto' {
+        getSpacings('p', 'padding', '-'+$key);
+      }
+    }
+  }
+
+  for $key, $point in $breakpoints-down {
+    +breakpoint($point) {
+      getSpacings('m', 'margin', '-'+$key+'-down');
+
+      if $value not a 'auto' {
+        getSpacings('p', 'padding', '-'+$key+'-down');
+      }
+    }
+  }
+
+  for $key, $point in $breakpoints-up {
+    +breakpoint($point) {
+      getSpacings('m', 'margin', '-'+$key+'-up');
+
+      if $value not a 'auto' {
+        getSpacings('p', 'padding', '-'+$key+'-up');
+      }
+    }
+  }
+}
