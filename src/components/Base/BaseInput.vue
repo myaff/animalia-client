@@ -42,7 +42,7 @@ watch(internalValue, value => {
         :id="uid"
         v-model="internalValue"
         :type="type"
-        class="base-input__field">
+        class="base-input__field py-16 px-20">
     </label>
   </div>
 </template>
@@ -55,7 +55,6 @@ watch(internalValue, value => {
   &__field {
     display: block;
     width: 100%;
-    padding: 12px 16px;
     border: 1px solid $color-grey.lighten-2;
     border-radius: $border-radius-base;
     background: $color-grey.lighten-4;

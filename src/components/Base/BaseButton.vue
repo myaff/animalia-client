@@ -1,7 +1,7 @@
 <script lang="ts">
 const btnModes = ['filled', 'outlined', 'plain'];
 const btnSizes = ['small', 'medium', 'large'];
-const btnThemes = ['primary', 'secondary', 'success', 'warning', 'danger'];
+const btnThemes = ['primary', 'secondary', 'success', 'warning', 'danger', 'white'];
 const btnShapes = ['square', 'circle', 'rounded'];
 </script>
 <script setup lang="ts">
@@ -114,6 +114,11 @@ $bb-colors-danger = {
   base: $error-color,
   base-text: $color-base.white,
 }
+$bb-colors-white = {
+  base: $color-base.white,
+  base-text: $color-grey.darken-1,
+  base-shade: $color-grey.lighten-2,
+}
 
 $bb-colors-tree = {
   primary: $bb-colors-primary,
@@ -121,20 +126,21 @@ $bb-colors-tree = {
   success: $bb-colors-success,
   warning: $bb-colors-warning,
   danger: $bb-colors-danger,
+  white: $bb-colors-white,
 };
 $bb-themes = {
   filled: generate-filled,
-  outline: generate-outline,
+  outlined: generate-outline,
   plain: generate-plain,
 }
 
 $bb-size-medium = {
   text: $font-size-base,
   weight: $font-weight-bold,
-  height: 26px,
+  height: 24px,
   border: 1px,
   padding: {
-    x: 32px,
+    x: 24px,
     y: 16px
   },
 }

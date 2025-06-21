@@ -1,9 +1,10 @@
 import type { AuthFormData } from "@/model/auth.model";
+import type { BaseUser } from "@/model/user.model";
 import AuthService from "@/services/auth.service";
 import { useLocalStorage } from "@vueuse/core";
 import { isBefore } from "date-fns";
 import { defineStore } from "pinia";
-import { computed, type Ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 
 interface Token {
   token: string;
@@ -19,6 +20,7 @@ export const useUserStore = defineStore('user', () => {
   const accessToken = useLocalStorage('accessToken', {...defaultTokenData});
   const refreshToken = useLocalStorage('refreshToken', {...defaultTokenData});
   const isAuthorized = computed(() => !!accessToken.value);
+  const user = ref<BaseUser | null>(null);
   const authService = new AuthService();
 
   const login = (formData: AuthFormData) => {
@@ -47,10 +49,23 @@ export const useUserStore = defineStore('user', () => {
     });
   }
 
+  const getUser = () => {
+    return authService.getUser()
+      .then(data => {
+        user.value = data;
+        return data;
+      });
+  }
+
+  const restart = () => {
+    return authService.restart();
+  }
+
   const logout = () => {
-    authService.logout().then(() => {
+    return authService.logout().then(() => {
       accessToken.value = defaultTokenData;
       refreshToken.value = defaultTokenData;
+      user.value = null;
       AuthService.removeAuthToken();
     });
   }
@@ -79,9 +94,12 @@ export const useUserStore = defineStore('user', () => {
   return {
     accessToken,
     isAuthorized,
+    user,
     login,
     register,
     logout,
     init,
+    getUser,
+    restart,
   };
 });

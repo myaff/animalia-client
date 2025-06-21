@@ -14,6 +14,9 @@ generate-filled($scheme, $key) {
 
   background: $base;
   color: $text;
+  if $scheme.base-shade {
+    box-shadow: 0 4px 0 0 $scheme.base-shade;
+  }
 
   {icon} {
     color: $icon;
@@ -43,8 +46,8 @@ generate-outline($scheme) {
   $icon = $scheme.base-icon ? $scheme.base-icon : $text;
   $hover = $base;
   $hover-text = $scheme.hover-text ? $scheme.hover-text : $scheme.base-text;
-  $hover-icon = $scheme.hover-icon ? $scheme.hover-icon : $icon;
-  $active = $scheme.active ? $scheme.active : $hover;
+  $hover-icon = $scheme.hover-icon ? $scheme.hover-icon : $hover-text;
+  $active = $scheme.active ? $scheme.active : darken($hover, 10%);
   $active-text = $scheme.active-text ? $scheme.active-text : $hover-text;
   $active-icon = $scheme.active-icon ? $scheme.active-icon : $active-text;
   $loader = $scheme.loader ? $scheme.loader : $text;

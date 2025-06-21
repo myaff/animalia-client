@@ -34,7 +34,7 @@ const emits = defineEmits(['update:modelValue']);
 
 <style lang="styl" scoped>
 .base-tabs-panel {
-  background: $color-grey.lighten-4;
+  background: $color-grey.lighten-3;
 
   &__list {
     display: flex;
@@ -54,6 +54,11 @@ const emits = defineEmits(['update:modelValue']);
     color: $color-grey.darken-3;
     margin-top: 4px;
     transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: $color-blue-grey.lighten-4;
+    }
 
     &.active {
       background: $color-base.white;

@@ -5,6 +5,14 @@
   font-weight: $font-weight-base;
   font-size: $font-size-smallest;
   line-height: $line-height-smallest;
+
+  +breakpoint(sm-and-up) {
+    font-size: $font-size-small;
+  }
+
+  +breakpoint(lg-and-up) {
+    font-size: $font-size-base;
+  }
 }
 
 .small-text {
@@ -65,6 +73,10 @@
   &--light {
     @extend .medium-text--light;
   }
+
+  +breakpoint(sm-and-up) {
+    font-size: $font-size-big;
+  }
 }
 
 .big-text {
@@ -83,9 +95,9 @@
   font-weight: $font-weight-black;
 
   +breakpoint(sm-and-up) {
-    font-size: $font-size-biggest;
+    font-size: $font-size-bigger;
   }
-  +breakpoint(ml-and-up) {
+  +breakpoint(lg-and-up) {
     font-size: $font-size-large;
   }
 }
@@ -103,9 +115,9 @@
   text-transform: uppercase;
 
   +breakpoint(sm-and-up) {
-    font-size: $font-size-biggest;
+    font-size: $font-size-large;
   }
-  +breakpoint(ml-and-up) {
+  +breakpoint(lg-and-up) {
     font-size: $font-size-larger;
   }
 }
@@ -117,12 +129,6 @@
   +breakpoint(sm-and-down) {
     font-size: $font-size-medium;
   }
-}
-
-.biggest-text {
-  font-size: $font-size-biggest;
-  line-height: 1;
-  letter-spacing: 0.01em;
 }
 
 .page-title {

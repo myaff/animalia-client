@@ -4,7 +4,7 @@ import BaseButton from '@/components/Base/BaseButton.vue';
 import type { GameElementMaybeStyled, GameElementStyled } from '@/model/game.model';
 import { useElementBounding, type Position } from '@vueuse/core';
 import { UseDraggable } from '@vueuse/components';
-import { computed, ref, watch, type PropType } from 'vue';
+import { computed, onMounted, ref, watch, type PropType } from 'vue';
 
 const props = defineProps({
   list: {
@@ -14,9 +14,27 @@ const props = defineProps({
 });
 const emits = defineEmits(['intersection', 'duplicate', 'delete', 'clear']);
 const areaEl = ref();
-const { width: areaWidth, height: areaHeight, x: areaX, y: areaY } = useElementBounding(areaEl);
+const {
+  width: areaWidth,
+  height: areaHeight,
+  x: areaX,
+  y: areaY,
+  update: updateAreaBounding,
+} = useElementBounding(areaEl);
 const deletingEl = ref();
-const { x: delX, y: delY, width: delWidth, height: delHeight } = useElementBounding(deletingEl);
+const {
+  x: delX,
+  y: delY,
+  width: delWidth,
+  height: delHeight,
+  update: updateDelBounding,
+} = useElementBounding(deletingEl);
+onMounted(() => {
+  setTimeout(() => {
+    updateAreaBounding();
+    updateDelBounding();
+  }, 100)
+})
 const isDeleting = ref(false);
 const SIZE = 50;
 const INTERSECTION = 0.8;
@@ -57,7 +75,6 @@ watch(() => props.list, value => {
   styledList.value = [...value.map((elem, i) => getElementWithPosition(elem, i))];
   if (!value.length) elementsIndex.clear();
 }, { immediate: true, deep: true });
-
 
 const getIntersectionBounds = (item: GameElementStyled) => {
   const half = item.size * INTERSECTION;

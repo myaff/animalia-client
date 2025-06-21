@@ -1,4 +1,4 @@
-import type { GameElement } from "@/model/game.model";
+import type { GameElement, GameElementOpened } from "@/model/game.model";
 import GameService from "@/services/game.service";
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
@@ -12,12 +12,20 @@ export const useGameStore = defineStore('game', () => {
   GameService.setAuthToken(token.value.token);
 
   const rating = ref<RatedUser[]>([]);
+  const opened = ref<GameElementOpened[]>([]);
+  const hints = ref<GameElement[]>([]);
+
+  const elementsIndex = computed(() => {
+    return opened.value.reduce((acc, item) => {
+      acc.set(item.id, item);
+      return acc;
+    }, new Map<GameElement['id'], GameElement>());
+  });
 
   watch(token, value => {
     GameService.setAuthToken(value.token);
   })
 
-  const opened = ref<GameElement[]>([]);
 
   function getOpened() {
     return gameService.getOpened().then(data => {
@@ -33,6 +41,13 @@ export const useGameStore = defineStore('game', () => {
     });
   }
 
+  function getHints() {
+    return gameService.getHints().then(data => {
+      hints.value = data;
+      return data;
+    })
+  }
+
   function checkCombo(items: GameElement[]) {
     return gameService
       .checkCombo(items.map(item => item.id))
@@ -42,11 +57,22 @@ export const useGameStore = defineStore('game', () => {
       });
   }
 
+  function reset() {
+    rating.value = [];
+    opened.value = [];
+    hints.value = [];
+  }
+
   return {
     opened,
+    rating,
+    hints,
+    elementsIndex,
     getOpened,
     getRating,
+    getHints,
     checkCombo,
+    reset,
   }
 });
 

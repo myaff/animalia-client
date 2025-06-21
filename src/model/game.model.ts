@@ -5,6 +5,10 @@ export interface GameElement {
   img?: string;
 }
 
+export interface GameElementOpened extends GameElement {
+  consistOf: GameElement['id'][]
+}
+
 export interface GameElementIndexed extends GameElement {
   index: number;
   key: string;
@@ -18,3 +22,8 @@ export interface GamePosition {
 
 export type GameElementMaybeStyled = GameElementIndexed & Partial<GamePosition>;
 export type GameElementStyled = GameElementIndexed & GamePosition;
+
+export interface GameProgress {
+  opened: number;
+  total: number;
+}

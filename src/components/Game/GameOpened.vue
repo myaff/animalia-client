@@ -3,15 +3,19 @@ import BaseButton from '@/components/Base/BaseButton.vue';
 import GameElement from '@/components/Game/GameElement.vue';
 import BaseTabsPanel from '@/components/Base/BaseTabsPanel.vue';
 import type { GameElement as GameElementType } from '@/model/game.model';
-import { reactive, ref, watch, type PropType } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
+import BaseModal from '../Base/BaseModal.vue';
+import { useGameStore } from '@/stores/game';
 
 defineProps({
-  list: {
-    type: Array as PropType<GameElementType[]>,
-    default: () => [],
+  modelValue: {
+    type: Boolean,
+    default: false,
   },
 })
-const emits = defineEmits(['select']);
+const emits = defineEmits(['select', 'update:modelValue']);
+const gameStore = useGameStore();
+const opened = computed(() => gameStore.opened);
 const selected = reactive<Set<GameElementType>>(new Set());
 const multiselectMode = ref(false);
 const onClick = (item: GameElementType) => {
@@ -47,17 +51,21 @@ const activeTab = ref('all');
 </script>
 
 <template>
-  <div class="game-opened">
-    <div class="game-opened__trigger">
-      <slot name="SwipeTrigger"></slot>
-    </div>
+  <BaseModal
+    :model-value="modelValue"
+    class="game-opened"
+    picture="/pics/book.png"
+    @update:model-value="val => emits('update:modelValue', val)">
+    <template #headerAfter>
+      <BaseTabsPanel
+        :list="tabs"
+        v-model="activeTab"
+        class="pt-12" />
+    </template>
     <div class="game-opened__window">
-      <div class="game-opened__header">
-        <BaseTabsPanel :list="tabs" v-model="activeTab" class="pt-12"></BaseTabsPanel>
-      </div>
       <div class="game-opened__list">
         <div
-          v-for="item in list"
+          v-for="item in opened"
           :key="item.id"
           class="game-opened__item"
           :class="{ selectable: multiselectMode, selected: selected.has(item) }">
@@ -73,7 +81,7 @@ const activeTab = ref('all');
           v-if="selected.size"
           size="small"
           theme="danger"
-          mode="outline"
+          mode="outlined"
           icon="delete"
           @click="onClear">
           Очистить
@@ -83,29 +91,17 @@ const activeTab = ref('all');
         </BaseButton>
       </div>
     </div>
-  </div>
+  </BaseModal>
 </template>
 
 <style lang="styl" scoped>
 .game-opened {
-  --offset: 50px;
-  --bg: white;
-  position: relative;
-  padding-top: var(--offset);
-
-  &__trigger {
-    position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: var(--offset);
-  }
-
   &__window {
     background: var(--bg);
     display: flex;
     flex-direction: column;
     height: 100%;
+    flex: 1;
   }
 
   &__footer {
