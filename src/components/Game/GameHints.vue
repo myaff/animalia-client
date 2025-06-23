@@ -8,6 +8,7 @@ import BaseHeadPic from '../Base/BaseHeadPic.vue';
 import { useUserStore } from '@/stores/user';
 import type { GameElement } from '@/model/game.model';
 import BaseCombination from '../Base/BaseCombination.vue';
+import GameElementDetails from './GameElementDetails.vue';
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -68,10 +69,11 @@ const next = () => {
     <div class="game-hints__content">
       <Transition name="fade" mode="out-in">
         <BaseLoader v-if="isLoading" class="big-title primary-color" />
-        <div v-else-if="!isLoading && activeElement" class="game-hints__item pa-20">
-          <BaseCombination v-if="combination.length" :list="combination" />
-          <div class="game-hint__description" v-html="activeElement?.description"></div>
-        </div>
+        <GameElementDetails
+          v-else-if="!isLoading && activeElement"
+          :item="activeElement"
+          :combination="combination"
+          class="game-hints__item pa-20" />
         <div v-else class="game-hints__no-hint pa-20">
           Подсказок больше нет
         </div>

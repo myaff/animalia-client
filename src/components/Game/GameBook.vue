@@ -3,11 +3,11 @@ import { useGameStore } from '@/stores/game';
 import BaseModal from '../Base/BaseModal.vue';
 import { computed, ref, watch } from 'vue';
 import BaseHeadPic from '../Base/BaseHeadPic.vue';
-import BaseCombination from '../Base/BaseCombination.vue';
 import GameBookElement from './GameBookElement.vue';
 import useCategoryTabs from '@/composables/useCategoryTabs';
 import BaseTabsPanel from '../Base/BaseTabsPanel.vue';
 import type { GameElementOpened } from '@/model/game.model';
+import GameElementDetails from './GameElementDetails.vue';
 
 const props = defineProps({
   modelValue: {
@@ -66,10 +66,11 @@ const alphabetical = computed(() => {
       <BaseTabsPanel v-else v-model="activeTab" :list="tabs" />
     </template>
     <div class="game-book__content pa-20">
-      <div v-if="activeElement" class="game-book__element">
-        <BaseCombination class="game-book__element-combination" :list="activeElementCombination" />
-        <div class="game-book__element-description standart-text" v-html="activeElement.description"></div>
-      </div>
+      <GameElementDetails
+        v-if="activeElement"
+        :item="activeElement"
+        :combination="activeElementCombination"
+        class="game-book__element" />
       <div v-else class="game-book__lists">
         <div
           v-for="group in alphabetical"

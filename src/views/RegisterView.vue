@@ -30,7 +30,7 @@ const onSubmit = async () => {
 
 <template>
   <div class="register-view pa-20 pa-40-sm-up">
-    <div class="login-view__header bigger-title mb-32 text-center text-upper">
+    <div class="register-view__header mb-32 text-center text-upper">
       Зарегистрируйтесь
     </div>
     <div class="register-view__form">
@@ -49,3 +49,19 @@ const onSubmit = async () => {
     </div>
   </div>
 </template>
+
+<style lang="styl" scoped>
+.register-view {
+  &__header {
+    font-size: 24px;
+    font-weight: $font-weight-bold;
+
+    +breakpoint(sm-and-up) {
+      font-size: 32px;
+    }
+    +breakpoint(lg-and-up) {
+      font-size: 48px;
+    }
+  }
+}
+</style>
