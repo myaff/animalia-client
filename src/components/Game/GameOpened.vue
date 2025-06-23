@@ -6,6 +6,7 @@ import type { GameElement as GameElementType } from '@/model/game.model';
 import { computed, reactive, ref, watch } from 'vue';
 import BaseModal from '../Base/BaseModal.vue';
 import { useGameStore } from '@/stores/game';
+import useCategoryTabs from '@/composables/useCategoryTabs';
 
 defineProps({
   modelValue: {
@@ -39,15 +40,7 @@ const onApply = () => {
 watch(() => selected.size, value => {
   if (!value) multiselectMode.value = false;
 });
-
-const tabs = [
-  { title: 'Все', key: 'all' },
-  { title: 'Группы', key: 'first' },
-  { title: 'Организмы', key: 'second' },
-  { title: 'Элементы', key: 'third' },
-  { title: 'Способности', key: 'fourth' },
-]
-const activeTab = ref('all');
+const { tabs, filtered, activeTab } = useCategoryTabs(opened);
 </script>
 
 <template>
@@ -65,7 +58,7 @@ const activeTab = ref('all');
     <div class="game-opened__window">
       <div class="game-opened__list">
         <div
-          v-for="item in opened"
+          v-for="item in filtered"
           :key="item.id"
           class="game-opened__item"
           :class="{ selectable: multiselectMode, selected: selected.has(item) }">
@@ -124,7 +117,7 @@ const activeTab = ref('all');
     align-items: flex-start;
     align-content: flex-start;
     justify-content: flex-start;
-    gap: 30px 10px;
+    gap: 16px;
     flex: 1;
     padding: 16px 10px;
   }
@@ -141,15 +134,17 @@ const activeTab = ref('all');
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      border: 2px solid black;
+      border: 2px solid $color-grey.lighten-2;
     }
     &.selected::after {
-      background: blue;
+      background: $primary-color;
     }
   }
 
   &__element {
     transition: opacity .3s ease;
+    cursor: pointer;
+
     .selectable & {
       opacity: 0.5;
     }

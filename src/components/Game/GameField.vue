@@ -38,7 +38,7 @@ onMounted(() => {
 const isDeleting = ref(false);
 const SIZE = 50;
 const INTERSECTION = 0.8;
-const X_GAP = 10;
+const X_GAP = 20;
 const Y_GAP = 20;
 const grid = computed(() => {
   const xOffset = 20;
@@ -171,6 +171,7 @@ const onClear = () => {
 
   &__element {
     position: absolute;
+    --element-bg: var(--field-bg);
 
     &.dragging {
       cursor: grabbing;

@@ -9,6 +9,7 @@ import BaseHeadPic from '../Base/BaseHeadPic.vue';
 import BaseProgress from '../Base/BaseProgress.vue';
 import BaseRank from '../Base/BaseRank.vue';
 import { useRouter } from 'vue-router';
+import BaseError from '../Base/BaseError.vue';
 
 defineProps({
   modelValue: {
@@ -50,7 +51,7 @@ const logout = () => {
       <template v-if="user" #headerAfter>
         <BaseHeadPic :title="user.username" picture="/pics/evolution.png" />
       </template>
-      <div class="nav-main__stats pa-16">
+      <div v-if="user" class="nav-main__stats pa-16">
         <BaseStat title="Открыто элементов:" class="py-8">
           <BaseProgress :progress="user?.progress" />
         </BaseStat>
@@ -58,7 +59,7 @@ const logout = () => {
           <BaseRank :rank="rank" active class="mr-8" />
         </BaseStat>
       </div>
-      <div class="nav-main__actions mt-auto pa-8">
+      <div v-if="user" class="nav-main__actions mt-auto pa-8">
         <BaseButton
           icon="refresh"
           wide
@@ -75,6 +76,7 @@ const logout = () => {
           Выйти из аккаунта
         </BaseButton>
       </div>
+      <BaseError v-else class="nav-main__error" />
   </BaseModal>
 </template>
 

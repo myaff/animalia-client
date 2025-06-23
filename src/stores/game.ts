@@ -1,4 +1,4 @@
-import type { GameElement, GameElementOpened } from "@/model/game.model";
+import type { GameElement, GameElementOpened, GameElementUnknown } from "@/model/game.model";
 import GameService from "@/services/game.service";
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
@@ -13,7 +13,7 @@ export const useGameStore = defineStore('game', () => {
 
   const rating = ref<RatedUser[]>([]);
   const opened = ref<GameElementOpened[]>([]);
-  const hints = ref<GameElement[]>([]);
+  const hints = ref<GameElementUnknown[]>([]);
 
   const elementsIndex = computed(() => {
     return opened.value.reduce((acc, item) => {

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import BaseButton from './BaseButton.vue';
+import useScreen from '@/composables/useScreen';
+
 defineProps({
   picture: {
     type: String,
@@ -8,11 +11,26 @@ defineProps({
     type: String,
     required: true,
   },
+  showBack: {
+    type: Boolean,
+    default: false,
+  },
 })
+const emits = defineEmits(['back']);
+const { isMobile } = useScreen();
 </script>
 
 <template>
   <div class="base-head-pic">
+    <BaseButton
+      v-if="showBack"
+      icon="arrow_back"
+      :mode="isMobile ? 'plain' : 'filled'"
+      theme="white"
+      size="small"
+      shape="circle"
+      class="base-head-pic__back"
+      @click="emits('back', false)" />
     <div class="base-head-pic__pic">
       <img :src="picture" :alt="title" class="base-head-pic__img mx-auto" />
     </div>
@@ -47,6 +65,10 @@ defineProps({
     border-bottom-width: 0;
     color: $color-base.white;
     z-index: 1;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
 
   &__img {
@@ -54,6 +76,20 @@ defineProps({
     max-width: 100%;
     height: 100px;
     object-fit: contain;
+  }
+
+  &__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    z-index: ($modal-z + 3);
+
+    +breakpoint(sm-and-up) {
+      transform: translate(0, 0);
+      top: 8px;
+      left: 8px;
+    }
   }
 }
 </style>

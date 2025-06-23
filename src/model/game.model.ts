@@ -2,7 +2,12 @@ export interface GameElement {
   id: string | number;
   name: string;
   description?: string;
-  img?: string;
+  img: string;
+  category: string;
+}
+
+export interface GameElementUnknown extends GameElement {
+  numberOfElements: number;
 }
 
 export interface GameElementOpened extends GameElement {

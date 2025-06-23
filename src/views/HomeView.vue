@@ -10,6 +10,7 @@ import RatingList from '@/components/Rating/RatingList.vue';
 import useGame from '@/composables/useGame';
 import { useUserStore } from '@/stores/user';
 import GameHints from '@/components/Game/GameHints.vue';
+import GameBook from '@/components/Game/GameBook.vue';
 
 const userStore = useUserStore();
 if (!userStore.user) userStore.getUser();
@@ -39,6 +40,7 @@ const navMainOpened = ref(false);
 const ratingOpened = ref(false);
 const elementsOpened = ref(false);
 const hintsOpened = ref(false);
+const bookOpened = ref(false);
 const mainNavList = [
   {
     title: 'Профиль',
@@ -58,7 +60,7 @@ const mainNavList = [
   {
     title: 'Справка',
     picture: '/pics/book1.png',
-    onClick: () => {}
+    onClick: () => bookOpened.value = true,
   },
   {
     title: 'Подсказка',
@@ -82,6 +84,7 @@ const mainNavList = [
     <GameOpened v-model="elementsOpened" @select="onSelect" />
     <RatingList v-model="ratingOpened" size="small" />
     <GameHints v-model="hintsOpened" size="small" />
+    <GameBook v-model="bookOpened" />
   </main>
 </template>
 
@@ -92,7 +95,8 @@ const mainNavList = [
   width: 100%;
   height: 100dvh;
   overflow: hidden;
-  background: $color-orange.lighten-4;
+  --field-bg: $color-orange.lighten-4;
+  background: var(--field-bg);
 
   &__field {
     position: relative;

@@ -21,9 +21,8 @@ interface RatedUsersList {
   active: RatedUser[];
   done: RatedUser[];
 }
-const fakeUser = { username: 'fake', progress: { opened: 11, total: 11 } };
 const list = computed<RatedUsersList>(() => {
-  return [...gameStore.rating, fakeUser].reduce((acc, item) => {
+  return gameStore.rating.reduce((acc, item) => {
     if (!item.username || !item.progress.opened) return acc;
     if (item.progress.opened === item.progress.total) acc.done.push(item);
     else acc.active.push(item);

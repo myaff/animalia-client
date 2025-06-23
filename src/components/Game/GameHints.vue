@@ -6,6 +6,8 @@ import BaseLoader from '../Base/BaseLoader.vue';
 import BaseButton from '../Base/BaseButton.vue';
 import BaseHeadPic from '../Base/BaseHeadPic.vue';
 import { useUserStore } from '@/stores/user';
+import type { GameElement } from '@/model/game.model';
+import BaseCombination from '../Base/BaseCombination.vue';
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -15,19 +17,11 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue']);
 const userStore = useUserStore();
 const gameStore = useGameStore();
-const hintsMock = [
-  {
-    id: '666',
-    name: 'cat',
-    img: '/pics/cat.webp',
-    description: '<p>Cat is an awazing animal</p>'
-  },
-]
 const gameIsOver = computed(() => {
   const progress = userStore.user?.progress;
   return !!progress && progress?.opened === progress?.total;
 });
-const hints = computed(() => [...gameStore.hints, ...hintsMock]);
+const hints = computed(() => gameStore.hints);
 const activeIndex = ref(0);
 const activeElement = computed(() => hints.value[activeIndex.value]);
 const hasPrev = computed(() => hints.value.length && activeIndex.value > 0);
@@ -36,11 +30,21 @@ const title = computed(() => {
   if (activeElement.value) return activeElement.value.name;
   return gameIsOver.value ? 'Вы выиграли!' : 'Подсказка недоступна';
 })
+const combination = computed(() => {
+  if (!activeElement.value) return [];
+  const arr: Pick<GameElement, 'name' | 'img'>[] = [];
+  for (let i = 0; i < activeElement.value.numberOfElements; i++) {
+    arr.push({ name: '', img: '/pics/unknown.png' });
+  }
+  return arr;
+})
 const isLoading = ref(false);
 watch(() => props.modelValue, value => {
   if (value) {
     isLoading.value = true;
     gameStore.getHints().finally(() => isLoading.value = false);
+  } else {
+    activeIndex.value = 0;
   }
 })
 const prev = () => {
@@ -59,12 +63,13 @@ const next = () => {
     <template #headerAfter>
       <BaseHeadPic
         :title="title"
-        :picture="activeElement.img ?? '/pics/evolution.png'" />
+        :picture="activeElement?.img ?? '/pics/evolution.png'" />
     </template>
     <div class="game-hints__content">
       <Transition name="fade" mode="out-in">
         <BaseLoader v-if="isLoading" class="big-title primary-color" />
         <div v-else-if="!isLoading && activeElement" class="game-hints__item pa-20">
+          <BaseCombination v-if="combination.length" :list="combination" />
           <div class="game-hint__description" v-html="activeElement?.description"></div>
         </div>
         <div v-else class="game-hints__no-hint pa-20">

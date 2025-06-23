@@ -103,6 +103,7 @@ const { isMobile } = useScreen();
     position: relative;
     width: 100%;
     height: 100%;
+    max-height: 100%;
     z-index: ($modal-z + 2);
     background: $color-base.white;
     border-top-right-radius: $border-radius-big;

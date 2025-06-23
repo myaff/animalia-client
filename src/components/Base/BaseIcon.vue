@@ -14,5 +14,6 @@ defineProps({
 <style lang="stylus" scoped>
 .base-icon {
   font-size: 1em;
+  vertical-align: middle;
 }
 </style>
