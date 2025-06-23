@@ -78,7 +78,7 @@ const next = () => {
         </div>
       </Transition>
     </div>
-    <div v-if="hints.length > 1" class="game-hints__footer pa-8">
+    <div v-if="hints.length > 1" class="game-hints__footer pa-8 pt-12">
       <BaseButton
         icon="arrow_back"
         size="small"
@@ -116,6 +116,9 @@ const next = () => {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    position: sticky;
+    bottom: 0;
+    background: $color-base.white;
   }
 }
 </style>
