@@ -7,7 +7,6 @@ import BaseButton from '../Base/BaseButton.vue';
 import BaseHeadPic from '../Base/BaseHeadPic.vue';
 import { useUserStore } from '@/stores/user';
 import type { GameElement } from '@/model/game.model';
-import BaseCombination from '../Base/BaseCombination.vue';
 import GameElementDetails from './GameElementDetails.vue';
 const props = defineProps({
   modelValue: {
